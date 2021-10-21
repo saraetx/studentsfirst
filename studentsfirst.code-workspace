@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "StudentsFirst.Api.Monolithic"
+		},
+		{
+			"path": "StudentsFirst.Api.Monolithic.Tests"
+		},
+		{
+			"path": "StudentsFirst.Common"
+		}
+	],
+	"settings": {}
+}
