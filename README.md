@@ -20,4 +20,6 @@ You can test the API server by running `dotnet test` in the `StudentsFirst.Api.M
 
 ## Acknowledgements
 
-This project's structure was partly inspired by the [Realworld ASP.NET Core example app](https://github.com/gothinkster/aspnetcore-realworld-example-app).
+The monolithic back-end API's structure was partly inspired by the [Realworld ASP.NET Core example app](https://github.com/gothinkster/aspnetcore-realworld-example-app).
+
+The front-end Angular SPA is built following architecture patterns detailed in [Bartosz Pietrucha's Dev Academy](https://dev-academy.com/angular-architecture-best-practices/).
