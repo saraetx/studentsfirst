@@ -1,3 +1,5 @@
-export interface AppState { }
+import { RouterState } from "./router/router.state";
 
-export const initialAppState: AppState = {};
+export interface AppState {
+  router: RouterState
+}

@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { appEffects } from './state/app.effects';
 import { appReducers } from './state/app.reducers';
+import { routerConfig } from './state/router/router.config';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { appReducers } from './state/app.reducers';
     AppRoutingModule,
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument(),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot(routerConfig),
     EffectsModule.forRoot(appEffects)
   ],
   providers: [],
