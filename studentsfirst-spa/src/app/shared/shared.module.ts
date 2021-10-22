@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MsalGuard, MsalInterceptor } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { AppAuthenticationModule } from '../app-authentication.module';
 
@@ -9,7 +10,12 @@ import { AppAuthenticationModule } from '../app-authentication.module';
   declarations: [],
   imports: [
     CommonModule,
-    AppAuthenticationModule
+    AppAuthenticationModule,
+    RouterModule
+  ],
+  exports: [
+    CommonModule,
+    RouterModule
   ],
   providers: [
     MsalGuard,

@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let navigationItem of navigationItems">
+    <a [routerLink]="navigationItem.routerLink">{{ navigationItem.name }}</a>
+  </li>
+</ul>
