@@ -4,6 +4,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { ENVIRONMENT } from 'src/environments/environment.token';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,7 +25,9 @@ import { routerConfig } from './state/router/router.config';
     StoreRouterConnectingModule.forRoot(routerConfig),
     EffectsModule.forRoot(appEffects)
   ],
-  providers: [],
+  providers: [
+    { provide: ENVIRONMENT, useValue: environment }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
