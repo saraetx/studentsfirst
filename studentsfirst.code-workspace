@@ -8,9 +8,6 @@
 		},
 		{
 			"path": "StudentsFirst.Common"
-		},
-		{
-			"path": "StudentsFirst.Spa.Wasm"
 		}
 	],
 	"settings": {}
