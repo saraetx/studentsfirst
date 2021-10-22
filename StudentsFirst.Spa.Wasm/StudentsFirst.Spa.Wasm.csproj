@@ -15,4 +15,8 @@
     <ProjectReference Include="..\StudentsFirst.Common\StudentsFirst.Common.csproj" />
   </ItemGroup>
 
+  <Target Name="BuildSass" BeforeTargets="Build">
+    <Exec Command="npm run sass" WorkingDirectory="wwwroot" />
+  </Target>
+
 </Project>
