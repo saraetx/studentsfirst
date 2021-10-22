@@ -1,4 +1,7 @@
+import { BrowserAuthOptions } from '@azure/msal-browser';
+
 export interface EnvironmentInterface {
   production: boolean,
-  apiBase: string
+  apiBase: string,
+  auth: BrowserAuthOptions
 }

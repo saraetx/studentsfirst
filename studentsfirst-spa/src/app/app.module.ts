@@ -12,22 +12,21 @@ import { AppComponent } from './app.component';
 import { appEffects } from './state/app.effects';
 import { appReducers } from './state/app.reducers';
 import { routerConfig } from './state/router/router.config';
+import { AppAuthenticationModule } from './app-authentication.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MsalBroadcastService, MsalGuard, MsalInterceptor, MsalRedirectComponent, MsalService } from '@azure/msal-angular';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    StoreModule.forRoot(appReducers),
-    StoreDevtoolsModule.instrument(),
-    StoreRouterConnectingModule.forRoot(routerConfig),
-    EffectsModule.forRoot(appEffects)
+    CoreModule
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, MsalRedirectComponent]
 })
 export class AppModule { }
