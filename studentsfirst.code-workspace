@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "StudentsFirst.Common"
+		},
+		{
+			"path": "studentsfirst-spa"
 		}
 	],
 	"settings": {}
