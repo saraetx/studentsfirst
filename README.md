@@ -4,7 +4,7 @@ StudentsFirst is a demo web application made for a fictional school and to be us
 
 The purpose of this application is to showcase my various full-stack development skills. I'm available for remote full-time or contract hire as a full stack software engineer, and if you're interested you can contact me on my [LinkedIn profile](https://www.linkedin.com/in/saraelsa/).
 
-> This project is currently under construction, but you can still explore it. Some back-end functionality (e.g. relating to users and groups) has already been implemented, and a front-end is planned soon.
+> This project is currently under construction, but you can still explore it. Some back-end functionality (e.g. relating to users and groups) has already been implemented, and a front-end is also being worked on.
 
 ## Running
 
