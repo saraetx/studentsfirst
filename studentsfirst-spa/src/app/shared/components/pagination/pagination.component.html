@@ -1,0 +1,16 @@
+<nav role="navigation" aria-label="Pagination Navigation">
+  <ul>
+    <div #pageLinksInsertionAnchor></div>
+    <ng-template let-pageNumber #pageLinkTemplate>
+      <li>
+        <a
+          attr.aria-label="Go to page {{ pageNumber }} of {{ max }}."
+          [class.selected-page]="selectedPageNumber === pageNumber"
+          (click)="propagateChange(pageNumber)"
+        >
+          {{ pageNumber }}
+        </a>
+      </li>
+    </ng-template>
+  </ul>
+</nav>
