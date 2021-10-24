@@ -2,7 +2,4 @@
   <input type="text" formControlName="searchTerm">
   <div><ng-content></ng-content></div>
   <app-pagination [max]="maxPages" formControlName="currentPage"></app-pagination>
-
-  <!-- For development purposes. -->
-  <pre>{{ queryForm.value | json }}</pre>
 </ng-container>
