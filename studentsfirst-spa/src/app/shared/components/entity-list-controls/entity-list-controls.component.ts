@@ -8,8 +8,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./entity-list-controls.component.scss']
 })
 export class EntityListControlsComponent implements OnInit, OnChanges {
-  public constructor() { }
-
   @Input()
   public totalEntities?: number;
   @Input()
