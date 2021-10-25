@@ -5,17 +5,25 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppAuthenticationModule } from '../app-authentication.module';
+import { EntityListControlsComponent } from './components/entity-list-controls/entity-list-controls.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    EntityListControlsComponent,
+    PaginationComponent
+  ],
   imports: [
     CommonModule,
     AppAuthenticationModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ],
   exports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    EntityListControlsComponent
   ],
   providers: [
     MsalGuard,
