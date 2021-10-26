@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
-  { path: 'groups', loadChildren: () => import('./features/groups/groups.module').then(m => m.GroupsModule) }
+  { path: '', canActivateChild: [MsalGuard], children: [
+    { path: 'groups', loadChildren: () => import('./features/groups/groups.module').then(m => m.GroupsModule) }
+  ] }
 ];
 
 @NgModule({

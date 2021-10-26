@@ -26,18 +26,23 @@ export const selectGroupsPagedEntitiesTake = createSelector(
   groupsEntities => groupsEntities.pagingTake
 );
 
-export const selectGroupsPagedEntityIds = createSelector(
+export const selectPagedGroupsIds = createSelector(
   selectGroupsEntities,
   groupsEntities => groupsEntities.pagedEntityIds
 );
 
-export const selectGroupsUnpagedEntityIds = createSelector(
+export const selectUnpagedGroupsIds = createSelector(
   selectGroupsEntities,
   groupsEntities => groupsEntities.unpagedEntityIds
 );
 
+export const selectPagedGroupsTotalCount = createSelector(
+  selectGroupsEntities,
+  groupsEntities => groupsEntities.pagedEntitiesTotalCount
+);
+
 export const selectPagedGroups = createSelector(
-  selectGroupsPagedEntityIds,
+  selectPagedGroupsIds,
   selectGroupsEntityMap,
   (groupsPagedEntityIds, groupsEntityMap) => groupsPagedEntityIds.map(id => groupsEntityMap[id])
 )

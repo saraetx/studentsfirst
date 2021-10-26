@@ -1,0 +1,8 @@
+<app-entity-list-controls
+  [totalEntities]="(groupsTotalCount$ | async) ?? undefined"
+  [entitiesPerPage]="entitiesPerPage"
+  [offset]="offset"
+  (offsetChange)="setOffset($event)"
+>
+  <pre>{{ groups$ | async | json }}</pre>
+</app-entity-list-controls>

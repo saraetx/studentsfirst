@@ -10,7 +10,7 @@ export const loadPagedGroups = createAction('studentsfirst-spa/groups/groups-ent
 
 export const loadPagedGroupsSuccess = createAction(
   'studentsfirst-spa/groups/groups-entities/load-paged-groups-success',
-  props<{ data: Group[] }>()
+  props<{ data: Group[], total: number }>()
 );
 
 export const loadPagedGroupsFail = createAction('studentsfirst-spa/groups/groups-entities/load-paged-groups-fail');

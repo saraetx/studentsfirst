@@ -18,8 +18,8 @@ export class GroupsEntitiesEffects {
 
   public setPagingOptionsEffect$ = createEffect(() => this.actions.pipe(
     ofType(setPagingOptions),
-    switchMapTo(this.store.select(selectGroupsPagedEntitiesLoaded)),
-    filter(pagedEntitiesLoaded => pagedEntitiesLoaded),
+    withLatestFrom(this.store.select(selectGroupsPagedEntitiesLoaded)),
+    filter(([_, pagedEntitiesLoaded]) => pagedEntitiesLoaded),
     map(() => loadPagedGroups())
   ));
 
@@ -27,7 +27,7 @@ export class GroupsEntitiesEffects {
     ofType(loadPagedGroups),
     withLatestFrom(this.store.select(selectGroupsPagedEntitiesSkip), this.store.select(selectGroupsPagedEntitiesTake)),
     switchMap(([_, skip, take]) => this.groupsApiService.findAll({ skip, take }).pipe(
-      map(data => loadPagedGroupsSuccess({ data })),
+      map(({ groups, total }) => loadPagedGroupsSuccess({ data: groups, total })),
       catchError(() => of(loadPagedGroupsFail()))
     ))
   ));

@@ -10,13 +10,14 @@ export const groupsEntitiesReducer = createReducer(
     pagingSkip: skip,
     pagingTake: take
   })),
-  on(loadPagedGroupsSuccess, (state, { data }) => ({
+  on(loadPagedGroupsSuccess, (state, { data, total }) => ({
     ...state,
     entitiesMap: convertListToEntities(
       Object.values(state.entitiesMap)
         .filter(group => state.unpagedEntityIds.includes(group.id))
         .concat(data)
     ),
+    pagedEntitiesTotalCount: total,
     pagedEntitiesLoaded: true,
     pagedEntityIds: data.map(g => g.id)
   })),
