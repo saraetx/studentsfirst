@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-entity-list-controls',
   templateUrl: './entity-list-controls.component.html',
-  styleUrls: ['./entity-list-controls.component.scss']
+  styleUrls: ['./entity-list-controls.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EntityListControlsComponent implements OnInit, OnChanges {
   @Input()
