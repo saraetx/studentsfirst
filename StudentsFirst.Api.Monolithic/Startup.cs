@@ -102,6 +102,8 @@ namespace StudentsFirst.Api.Monolithic
 
             app.UseRouting();
 
+            app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseAuthentication();
             app.UseUserSynchronization();
             app.UseAuthorization();
