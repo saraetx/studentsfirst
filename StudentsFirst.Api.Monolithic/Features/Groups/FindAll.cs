@@ -66,11 +66,12 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
                     filtering = true;
                 }
 
+                int total = await groups.CountAsync();
                 groups = groups.OrderBy(g => g.Name).Skip(skipping).Take(taking);
 
                 IList<GroupResponse> response = _mapper.Map<IList<GroupResponse>>(await groups.ToListAsync());
 
-                return new GroupsResponse(response, filtering, skipping, taking);
+                return new GroupsResponse(response, filtering, total, skipping, taking);
             }
         }
     }

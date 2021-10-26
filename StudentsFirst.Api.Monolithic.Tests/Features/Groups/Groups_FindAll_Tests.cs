@@ -65,6 +65,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupsResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedGroups, actualResponse.Groups);
+            Assert.Equal(expectedGroups.Count, actualResponse.Total);
             Assert.False(actualResponse.Filtering);
         }
 
@@ -111,6 +112,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupsResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedGroups, actualResponse.Groups);
+            Assert.Equal(expectedGroups.Count, actualResponse.Total);
             Assert.True(actualResponse.Filtering);
         }
 
@@ -157,6 +159,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupsResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedGroups, actualResponse.Groups);
+            Assert.Equal(expectedGroups.Count, actualResponse.Total);
             Assert.False(actualResponse.Filtering);
         }
         
@@ -203,6 +206,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupsResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedGroups, actualResponse.Groups);
+            Assert.Equal(expectedGroups.Count, actualResponse.Total);
             Assert.True(actualResponse.Filtering);
         }
 
@@ -257,6 +261,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupsResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedGroups, actualResponse.Groups);
+            Assert.Equal(context.Groups.Count(), actualResponse.Total);
             Assert.False(actualResponse.Filtering);
             Assert.Equal(skip, actualResponse.Skipping);
             Assert.Equal(take, actualResponse.Taking);

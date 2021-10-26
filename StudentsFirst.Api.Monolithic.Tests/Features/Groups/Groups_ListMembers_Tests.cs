@@ -83,6 +83,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
 
             Assert.Equal(expectedGroup, actualResponse.Group);
             Assert.Equal(expectedMembers, actualResponse.Members);
+            Assert.Equal(expectedMembers.Count, actualResponse.Total);
         }
 
         [Fact]
@@ -200,6 +201,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             GroupMembersResponse actualResponse = await handler.Handle(request);
 
             Assert.Equal(expectedMembers, actualResponse.Members);
+            Assert.Equal(context.Users.Count(), actualResponse.Total);
             Assert.Equal(skip, actualResponse.Skipping);
             Assert.Equal(take, actualResponse.Taking);
         }

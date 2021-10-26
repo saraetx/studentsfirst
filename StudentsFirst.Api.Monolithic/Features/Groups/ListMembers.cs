@@ -73,12 +73,13 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
                     join member in _dbContext.Users on userGroupMembership.UserId equals member.Id
                     select member;
                 
+                int total = await members.CountAsync();
                 members = members.OrderBy(m => m.Name).Skip(skipping).Take(taking);
 
                 GroupResponse groupResponse = _mapper.Map<GroupResponse>(foundGroup);
                 IList<UserResponse> response = _mapper.Map<IList<UserResponse>>(await members.ToListAsync());
 
-                return new GroupMembersResponse(groupResponse, response, skipping, taking);
+                return new GroupMembersResponse(groupResponse, response, total, skipping, taking);
             }
         }
     }
