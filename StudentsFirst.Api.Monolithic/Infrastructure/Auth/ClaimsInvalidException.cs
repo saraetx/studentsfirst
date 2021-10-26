@@ -20,6 +20,6 @@ namespace StudentsFirst.Api.Monolithic.Infrastructure.Auth
         public override string Message => GetMessage(ClaimName, Description);
 
         protected static string GetMessage(string claimName, string description) =>
-            $"{claimName}: ${description}.";
+            $"{claimName}: {description}";
     }
 }
