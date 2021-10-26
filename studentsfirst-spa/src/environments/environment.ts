@@ -7,6 +7,7 @@ import { EnvironmentInterface } from './environment.interface';
 export const environment: EnvironmentInterface = {
   production: false,
   apiBase: 'https://localhost:5001',
+  apiAppUri: 'api://af4921d2-2f59-4d34-a308-cd61409e9d13',
   auth: {
     clientId: '5cf30068-237e-439e-98c2-e06cf3c681f8',
     authority: 'https://login.microsoftonline.com/f5afb4ff-5542-4b7a-8881-ec35b51f2d75/',

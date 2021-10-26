@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MsalGuard, MsalInterceptor } from '@azure/msal-angular';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppAuthenticationModule } from '../app-authentication.module';
@@ -18,7 +18,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     CommonModule,
     AppAuthenticationModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     CommonModule,

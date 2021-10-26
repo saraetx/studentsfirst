@@ -5,7 +5,9 @@ import { environment } from '../environments/environment';
 import { MsalGuardConfiguration, MsalInterceptor, MsalInterceptorConfiguration, MsalModule, ProtectedResourceScopes } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-const protectedResourceMap: [string, (string | ProtectedResourceScopes)[] | null][] = [];
+const protectedResourceMap: [string, (string | ProtectedResourceScopes)[] | null][] = [
+  [`${environment.apiBase}/*`, [`${environment.apiAppUri}/login`]]
+];
 
 const msalConfig: Configuration = {
   auth: environment.auth,
@@ -15,7 +17,10 @@ const msalConfig: Configuration = {
 };
 
 const msalGuardConfig: MsalGuardConfiguration = {
-  interactionType: InteractionType.Redirect
+  interactionType: InteractionType.Redirect,
+  authRequest: {
+    scopes: [`${environment.apiAppUri}/login`]
+  }
 };
 
 const msalInterceptorConfig: MsalInterceptorConfiguration = {
