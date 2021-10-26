@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, forwardRef, Input, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => PaginationComponent), multi: true }
   ]
 })
-export class PaginationComponent implements AfterContentInit, ControlValueAccessor {
+export class PaginationComponent implements OnChanges, ControlValueAccessor {
   @Input()
   public max?: number;
 
@@ -20,18 +20,19 @@ export class PaginationComponent implements AfterContentInit, ControlValueAccess
   @ViewChild('pageLinkTemplate', { static: true })
   public pageLinkTemplate!: TemplateRef<{ $implicit: number }>;
 
+  public pageNumbers?: number[];
   public selectedPageNumber?: number;
 
   private onChange?: (pageNumber: Number) => void;
   private onTouched?: () => void;
 
-  public ngAfterContentInit(): void {
-    for (let i = 0; i < (this.max ?? 0); i++) {
-      const pageNumber = i + 1;
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.max !== undefined) {
+      this.pageNumbers = new Array(this.max).fill(null).map((_, index) => index + 1);
 
-      this.pageLinksInsertionAnchor.createEmbeddedView(this.pageLinkTemplate, {
-        $implicit: pageNumber
-      });
+      if (this.selectedPageNumber === undefined || !this.pageNumbers.includes(this.selectedPageNumber)) {
+        this.selectedPageNumber = 1;
+      }
     }
   }
 
