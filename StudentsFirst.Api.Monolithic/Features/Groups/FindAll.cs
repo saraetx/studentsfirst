@@ -59,10 +59,9 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
                     if (request.OwnOnly) { filtering = true; }
                 }
 
-
                 if (!string.IsNullOrEmpty(request.NameIncludes))
                 {
-                    groups = groups.Where(g => g.Name.Contains(request.NameIncludes));
+                    groups = groups.Where(g => g.Name.ToLower().Contains(request.NameIncludes.ToLower()));
                     filtering = true;
                 }
 

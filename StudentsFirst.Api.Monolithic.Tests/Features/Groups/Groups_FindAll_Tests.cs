@@ -176,7 +176,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             const string GROUP_3_NAME = "Group 3";
             const string GROUP_3_ID = "14643106-4007-4d31-9636-0d0c99ce42f3";
 
-            const string TERM_TO_MATCH = "matching";
+            const string TERM_TO_MATCH = "Matching";
 
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
