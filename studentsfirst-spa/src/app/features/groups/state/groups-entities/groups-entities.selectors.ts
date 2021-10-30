@@ -16,12 +16,22 @@ export const selectGroupsPagedEntitiesLoaded = createSelector(
   groupsEntities => groupsEntities.pagedEntitiesLoaded
 );
 
-export const selectGroupsPagedEntitiesSkip = createSelector(
+export const selectPagedGroupsNameIncludes = createSelector(
+  selectGroupsEntities,
+  groupsEntities => groupsEntities.pagingFilterNameIncludes
+);
+
+export const selectPagedGroupsOwnOnly = createSelector(
+  selectGroupsEntities,
+  groupsEntities => groupsEntities.pagingFilterOwnOnly
+);
+
+export const selectPagedGroupsSkip = createSelector(
   selectGroupsEntities,
   groupsEntities => groupsEntities.pagingSkip
 );
 
-export const selectGroupsPagedEntitiesTake = createSelector(
+export const selectPagedGroupsTake = createSelector(
   selectGroupsEntities,
   groupsEntities => groupsEntities.pagingTake
 );

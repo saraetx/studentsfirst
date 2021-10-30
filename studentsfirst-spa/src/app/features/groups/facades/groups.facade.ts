@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, take } from 'rxjs/operators';
 
 import { Group } from '../models/group.model';
-import { loadPagedGroups, setPagingOptions, unloadPagedGroups } from '../state/groups-entities/groups-entities.actions';
+import { loadPagedGroups, setGroupsPagingFilter, setGroupsPagingOptions, unloadPagedGroups } from '../state/groups-entities/groups-entities.actions';
 import { selectPagedGroups, selectPagedGroupsTotalCount } from '../state/groups-entities/groups-entities.selectors';
 
 @Injectable()
 export class GroupsFacade {
   public constructor(private readonly store: Store) { }
 
+  public setFilter(nameIncludes: string, ownOnly: boolean) {
+    this.store.dispatch(setGroupsPagingFilter({ nameIncludes, ownOnly }));
+  }
+
   public setPaging(skip: number, take: number): void {
-    this.store.dispatch(setPagingOptions({ skip, take }));
+    this.store.dispatch(setGroupsPagingOptions({ skip, take }));
   }
 
   public getAllGroupsInPage$(): Observable<Group[]> {

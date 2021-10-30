@@ -1,14 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
 import { convertListToEntities } from '../../../../shared/utils/convert-list-to-entities';
-import { loadPagedGroupsSuccess, setPagingOptions, unloadPagedGroups } from './groups-entities.actions';
+import { loadPagedGroupsSuccess, setGroupsPagingFilter, setGroupsPagingOptions, unloadPagedGroups } from './groups-entities.actions';
 import { groupsEntitiesInitialState } from './groups-entities.state';
 
 export const groupsEntitiesReducer = createReducer(
   groupsEntitiesInitialState,
-  on(setPagingOptions, (state, { skip, take }) => ({
+  on(setGroupsPagingOptions, (state, { skip, take }) => ({
     ...state,
     pagingSkip: skip,
     pagingTake: take
+  })),
+  on(setGroupsPagingFilter, (state, { nameIncludes, ownOnly }) => ({
+    ...state,
+    pagingFilterNameIncludes: nameIncludes,
+    pagingFilterOwnOnly: ownOnly
   })),
   on(loadPagedGroupsSuccess, (state, { data, total }) => ({
     ...state,

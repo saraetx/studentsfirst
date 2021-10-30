@@ -7,7 +7,9 @@ export interface GroupsEntitiesState {
   unpagedEntityIds: string[],
   pagedEntitiesTotalCount: number,
   pagingSkip: number,
-  pagingTake: number
+  pagingTake: number,
+  pagingFilterNameIncludes: string,
+  pagingFilterOwnOnly: boolean
 }
 
 export const groupsEntitiesInitialState: GroupsEntitiesState = {
@@ -15,6 +17,8 @@ export const groupsEntitiesInitialState: GroupsEntitiesState = {
   pagedEntitiesLoaded: false,
   pagedEntityIds: [],
   unpagedEntityIds: [],
+  pagingFilterNameIncludes: '',
+  pagingFilterOwnOnly: false,
   pagedEntitiesTotalCount: 0,
   pagingSkip: 0,
   pagingTake: 0

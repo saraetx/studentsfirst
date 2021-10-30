@@ -8,13 +8,20 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./entity-list-controls.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EntityListControlsComponent implements OnInit, OnChanges {
+export class EntityListControlsComponent implements OnInit {
   @Input()
   public totalEntities?: number;
   @Input()
   public entitiesPerPage?: number;
   @Input()
-  public offset?: number;
+  public set offset(value: number) {
+    this.patchCurrentPage(this.calculateOffset(value));
+  }
+
+  @Input()
+  public set searchTerm(value: string | undefined) {
+    this.patchSearchTerm(value);
+  }
 
   @Output()
   public offsetChange = new EventEmitter<number>();
@@ -28,16 +35,6 @@ export class EntityListControlsComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.registerListeners();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.searchTerm !== undefined) {
-      this.patchSearchTerm(changes.searchTerm.currentValue);
-    }
-
-    if (changes.offset !== undefined) {
-      this.patchCurrentPage(this.calculateOffset(changes.offset.currentValue));
-    }
   }
 
   public get maxPages(): number {
@@ -56,7 +53,7 @@ export class EntityListControlsComponent implements OnInit, OnChanges {
     ).subscribe((offset: number) => this.offsetChange.emit(offset));
   }
 
-  protected patchSearchTerm(searchTerm: string) {
+  protected patchSearchTerm(searchTerm: string | undefined) {
     const searchTermControl = this.queryForm.get('searchTerm') as FormControl;
     searchTermControl.setValue(searchTerm);
   }

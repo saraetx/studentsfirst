@@ -1,8 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { Group } from '../../models/group.model';
 
-export const setPagingOptions = createAction(
-  'studentsfirst-spa/groups/groups-entities/set-paging-options',
+export const setGroupsPagingFilter = createAction(
+  'studentsfirst-spa/groups/groups-entities/set-groups-paging-filter',
+  props<{ nameIncludes: string, ownOnly: boolean }>()
+);
+
+export const setGroupsPagingOptions = createAction(
+  'studentsfirst-spa/groups/groups-entities/set-groups-paging-options',
   props<{ skip: number, take: number }>()
 );
 

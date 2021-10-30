@@ -16,14 +16,22 @@ export class GroupsListContainerComponent implements OnInit {
   public groups$?: Observable<Group[]>;
   public groupsTotalCount$?: Observable<number>;
 
-  public offset: number = 0;
   public entitiesPerPage: number = 20;
+  public offset: number = 0;
+
+  public nameIncludes: string = '';
+  public ownOnly: boolean = false;
 
   public ngOnInit(): void {
+    this.updateFilter();
     this.updatePaging();
 
     this.groups$ = this.groupsFacade.getAllGroupsInPage$();
     this.groupsTotalCount$ = this.groupsFacade.selectGroupsTotalCount$();
+  }
+
+  public updateFilter(): void {
+    this.groupsFacade.setFilter(this.nameIncludes, this.ownOnly);
   }
 
   public updatePaging(): void {
@@ -33,5 +41,10 @@ export class GroupsListContainerComponent implements OnInit {
   public setOffset(offset: number): void {
     this.offset = offset;
     this.updatePaging();
+  }
+
+  public setNameIncludes(nameIncludes: string) {
+    this.nameIncludes = nameIncludes;
+    this.updateFilter();
   }
 }

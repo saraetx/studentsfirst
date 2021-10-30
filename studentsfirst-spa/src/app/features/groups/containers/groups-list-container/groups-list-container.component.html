@@ -2,7 +2,9 @@
   [totalEntities]="(groupsTotalCount$ | async) ?? undefined"
   [entitiesPerPage]="entitiesPerPage"
   [offset]="offset"
+  [searchTerm]="nameIncludes"
   (offsetChange)="setOffset($event)"
+  (searchTermChange)="setNameIncludes($event)"
 >
   <pre>{{ groups$ | async | json }}</pre>
 </app-entity-list-controls>
