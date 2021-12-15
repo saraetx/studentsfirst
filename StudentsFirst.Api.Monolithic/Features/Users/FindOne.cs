@@ -49,7 +49,7 @@ namespace StudentsFirst.Api.Monolithic.Features.Users
                         from sharedUserGroupMembership in _dbContext.UserGroupMemberships
                         where sharedUserGroupMembership.GroupId == @group.Id && sharedUserGroupMembership.UserId == foundUser.Id
                         select sharedUserGroupMembership
-                    ).CountAsync() > 0;
+                    ).AnyAsync();
 
                     if (!isInSameGroup) { throw new NotFoundRestException(nameof(User)); }
                 }
