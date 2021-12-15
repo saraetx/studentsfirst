@@ -11,7 +11,7 @@ using StudentsFirst.Common.Dtos.Groups;
 namespace StudentsFirst.Api.Monolithic.Features.Groups
 {
     [ApiController, Route("groups")]
-    [Authorize(Roles = RoleConstants.STUDENT + "," + RoleConstants.TEACHER), RequiredScope(ScopeConstants.LOGIN)]
+    [Authorize(Roles = $"{RoleConstants.STUDENT},{RoleConstants.TEACHER}"), RequiredScope(ScopeConstants.LOGIN)]
     public class GroupsController : ControllerBase
     {
         public GroupsController(IMediator mediator)
