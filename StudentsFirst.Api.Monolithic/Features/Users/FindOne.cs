@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsFirst.Api.Monolithic.Errors;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
+using StudentsFirst.Common.Constants;
 using StudentsFirst.Common.Dtos.Users;
 using StudentsFirst.Common.Models;
 
@@ -36,23 +37,23 @@ namespace StudentsFirst.Api.Monolithic.Features.Users
                 IQueryable<User> users = _dbContext.Users;
 
                 bool enforceRestrictedSet = user.IsStudent;
+                
+                if (enforceRestrictedSet)
+                {
+                    users = users
+                        .Where(otherUser => otherUser.Id == user.Id || otherUser.Role == RoleConstants.TEACHER || (
+                            from otherUserGroupMembership in _dbContext.UserGroupMemberships
+                            where otherUserGroupMembership.UserId == otherUser.Id
+                            from sharedUserGroupMembership in _dbContext.UserGroupMemberships
+                            where
+                                sharedUserGroupMembership.GroupId == otherUserGroupMembership.GroupId
+                                && sharedUserGroupMembership.UserId == user.Id
+                            select sharedUserGroupMembership
+                        ).Any());
+                }
 
                 User foundUser = await users.SingleOrDefaultAsync(u => u.Id == request.UserId)
                     ?? throw new NotFoundRestException(nameof(User));
-                
-                if (enforceRestrictedSet && foundUser.Id != user.Id && !foundUser.IsTeacher)
-                {
-                    bool isInSameGroup = await (
-                        from ownUserGroupMembership in _dbContext.UserGroupMemberships
-                        where ownUserGroupMembership.UserId == user.Id
-                        join @group in _dbContext.Groups on ownUserGroupMembership.GroupId equals @group.Id
-                        from sharedUserGroupMembership in _dbContext.UserGroupMemberships
-                        where sharedUserGroupMembership.GroupId == @group.Id && sharedUserGroupMembership.UserId == foundUser.Id
-                        select sharedUserGroupMembership
-                    ).AnyAsync();
-
-                    if (!isInSameGroup) { throw new NotFoundRestException(nameof(User)); }
-                }
 
                 return _mapper.Map<UserResponse>(foundUser);
             }
