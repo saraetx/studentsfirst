@@ -60,17 +60,15 @@ namespace StudentsFirst.Api.Monolithic.Features.Users
                 if (enforceRestrictedSet)
                 {
                     users = users
-                        .Where(u => u.Id == user.Id || u.Role == RoleConstants.TEACHER)
-                        .Concat(
-                            from ownUserGroupMembership in _dbContext.UserGroupMemberships
-                            where ownUserGroupMembership.UserId == user.Id
-                            join @group in _dbContext.Groups on ownUserGroupMembership.GroupId equals @group.Id
+                        .Where(otherUser => otherUser.Id == user.Id || otherUser.Role == RoleConstants.TEACHER || (
+                            from otherUserGroupMembership in _dbContext.UserGroupMemberships
+                            where otherUserGroupMembership.UserId == otherUser.Id
                             from sharedUserGroupMembership in _dbContext.UserGroupMemberships
-                            where sharedUserGroupMembership.GroupId == @group.Id
-                            join user2 in _dbContext.Users on sharedUserGroupMembership.UserId equals user2.Id
-                            where !(user2.Id == user.Id || user2.Role == RoleConstants.TEACHER)
-                            select user2
-                        );
+                            where
+                                sharedUserGroupMembership.GroupId == otherUserGroupMembership.GroupId
+                                && sharedUserGroupMembership.UserId == user.Id
+                            select sharedUserGroupMembership
+                        ).Any());
                 }
 
                 if (!string.IsNullOrEmpty(request.NameIncludes))
