@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 
+#nullable disable
+
 namespace StudentsFirst.Api.Monolithic.Data.Migrations
 {
     [DbContext(typeof(StudentsFirstContext))]
@@ -15,9 +17,10 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("StudentsFirst.Common.Models.Assignment", b =>
                 {
@@ -28,7 +31,7 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("DueAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -44,9 +47,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("AssignmentSubmissionId")
-                        .HasColumnType("text");
-
                     b.Property<string>("DownloadUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -60,11 +60,9 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UploadedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssignmentSubmissionId");
 
                     b.HasIndex("SubmissionId");
 
@@ -80,9 +78,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("AssignmentId1")
-                        .HasColumnType("text");
-
                     b.Property<string>("DownloadUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -94,8 +89,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("AssignmentId1");
 
                     b.ToTable("AssignmentResource");
                 });
@@ -113,22 +106,17 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("AssignmentId1")
-                        .HasColumnType("text");
-
                     b.Property<bool>("Completed")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("CompletedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssigneeId");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("AssignmentId1");
 
                     b.ToTable("AssignmentSubmission");
                 });
@@ -184,10 +172,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                 {
                     b.HasOne("StudentsFirst.Common.Models.AssignmentSubmission", null)
                         .WithMany("Attachments")
-                        .HasForeignKey("AssignmentSubmissionId");
-
-                    b.HasOne("StudentsFirst.Common.Models.AssignmentSubmission", null)
-                        .WithMany()
                         .HasForeignKey("SubmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -196,14 +180,10 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
             modelBuilder.Entity("StudentsFirst.Common.Models.AssignmentResource", b =>
                 {
                     b.HasOne("StudentsFirst.Common.Models.Assignment", null)
-                        .WithMany()
+                        .WithMany("Resources")
                         .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("StudentsFirst.Common.Models.Assignment", null)
-                        .WithMany("Resources")
-                        .HasForeignKey("AssignmentId1");
                 });
 
             modelBuilder.Entity("StudentsFirst.Common.Models.AssignmentSubmission", b =>
@@ -215,14 +195,10 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("StudentsFirst.Common.Models.Assignment", null)
-                        .WithMany()
+                        .WithMany("Submissions")
                         .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("StudentsFirst.Common.Models.Assignment", null)
-                        .WithMany("Submissions")
-                        .HasForeignKey("AssignmentId1");
                 });
 
             modelBuilder.Entity("StudentsFirst.Common.Models.UserGroupMembership", b =>

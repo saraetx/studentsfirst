@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using StudentsFirst.Api.Monolithic.Errors;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
-using StudentsFirst.Common.Constants;
 using StudentsFirst.Common.Dtos.Groups;
 using StudentsFirst.Common.Models;
 
@@ -39,7 +38,7 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
 
                 IQueryable<Group> groups = _dbContext.Groups;
 
-                bool enforceOwnOnly = user.Role == RoleConstants.STUDENT;
+                bool enforceOwnOnly = user.IsStudent;
 
                 if (enforceOwnOnly)
                 {

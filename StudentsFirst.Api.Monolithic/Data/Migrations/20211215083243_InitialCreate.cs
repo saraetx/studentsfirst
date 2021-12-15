@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace StudentsFirst.Api.Monolithic.Data.Migrations
 {
     public partial class InitialCreate : Migration
@@ -14,7 +16,7 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     AllowsOverdueCompletions = table.Column<bool>(type: "boolean", nullable: false),
-                    DueAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    DueAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,8 +55,7 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DownloadUrl = table.Column<string>(type: "text", nullable: false),
-                    AssignmentId = table.Column<string>(type: "text", nullable: false),
-                    AssignmentId1 = table.Column<string>(type: "text", nullable: true)
+                    AssignmentId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,12 +66,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         principalTable: "Assignment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssignmentResource_Assignment_AssignmentId1",
-                        column: x => x.AssignmentId1,
-                        principalTable: "Assignment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,8 +76,7 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     AssigneeId = table.Column<string>(type: "text", nullable: false),
                     AssignmentId = table.Column<string>(type: "text", nullable: false),
                     Completed = table.Column<bool>(type: "boolean", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    AssignmentId1 = table.Column<string>(type: "text", nullable: true)
+                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,12 +87,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         principalTable: "Assignment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssignmentSubmission_Assignment_AssignmentId1",
-                        column: x => x.AssignmentId1,
-                        principalTable: "Assignment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AssignmentSubmission_Users_AssigneeId",
                         column: x => x.AssigneeId,
@@ -138,19 +126,12 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     SubmissionId = table.Column<string>(type: "text", nullable: false),
-                    UploadedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DownloadUrl = table.Column<string>(type: "text", nullable: false),
-                    AssignmentSubmissionId = table.Column<string>(type: "text", nullable: true)
+                    UploadedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DownloadUrl = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AssignmentAttachment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AssignmentAttachment_AssignmentSubmission_AssignmentSubmiss~",
-                        column: x => x.AssignmentSubmissionId,
-                        principalTable: "AssignmentSubmission",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AssignmentAttachment_AssignmentSubmission_SubmissionId",
                         column: x => x.SubmissionId,
@@ -158,11 +139,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssignmentAttachment_AssignmentSubmissionId",
-                table: "AssignmentAttachment",
-                column: "AssignmentSubmissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssignmentAttachment_SubmissionId",
@@ -175,11 +151,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                 column: "AssignmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignmentResource_AssignmentId1",
-                table: "AssignmentResource",
-                column: "AssignmentId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AssignmentSubmission_AssigneeId",
                 table: "AssignmentSubmission",
                 column: "AssigneeId");
@@ -188,11 +159,6 @@ namespace StudentsFirst.Api.Monolithic.Data.Migrations
                 name: "IX_AssignmentSubmission_AssignmentId",
                 table: "AssignmentSubmission",
                 column: "AssignmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssignmentSubmission_AssignmentId1",
-                table: "AssignmentSubmission",
-                column: "AssignmentId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserGroupMemberships_GroupId",

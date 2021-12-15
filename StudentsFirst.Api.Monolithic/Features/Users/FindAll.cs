@@ -55,7 +55,7 @@ namespace StudentsFirst.Api.Monolithic.Features.Users
                 int skipping = request.Skip;
                 int taking = request.Take;
 
-                bool enforceRestrictedSet = user.Role == RoleConstants.STUDENT;
+                bool enforceRestrictedSet = user.IsStudent;
 
                 if (enforceRestrictedSet)
                 {

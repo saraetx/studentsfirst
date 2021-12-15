@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using StudentsFirst.Api.Monolithic.Errors;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
-using StudentsFirst.Common.Constants;
 using StudentsFirst.Common.Dtos.Users;
 using StudentsFirst.Common.Models;
 
@@ -36,12 +35,12 @@ namespace StudentsFirst.Api.Monolithic.Features.Users
 
                 IQueryable<User> users = _dbContext.Users;
 
-                bool enforceRestrictedSet = user.Role == RoleConstants.STUDENT;
+                bool enforceRestrictedSet = user.IsStudent;
 
                 User foundUser = await users.SingleOrDefaultAsync(u => u.Id == request.UserId)
                     ?? throw new NotFoundRestException(nameof(User));
                 
-                if (enforceRestrictedSet && foundUser.Id != user.Id && foundUser.Role != RoleConstants.TEACHER)
+                if (enforceRestrictedSet && foundUser.Id != user.Id && !foundUser.IsTeacher)
                 {
                     bool isInSameGroup = await (
                         from ownUserGroupMembership in _dbContext.UserGroupMemberships

@@ -6,8 +6,8 @@ namespace StudentsFirst.Common.Models
         {
             Id = id;
             Name = name;
-            AssignmentId = assignmentId;
             DownloadUrl = downloadUrl;
+            AssignmentId = assignmentId;
         }
 
         public string Id { get; set; }

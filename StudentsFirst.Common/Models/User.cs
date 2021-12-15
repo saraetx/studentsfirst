@@ -18,5 +18,8 @@ namespace StudentsFirst.Common.Models
         /// Possible values for role are enumerated in <see cref="RoleConstants">.
         /// </summary>
         public string Role { get; set; }
+
+        public bool IsStudent => Role == RoleConstants.STUDENT;
+        public bool IsTeacher => Role == RoleConstants.TEACHER;
     }
 }

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using StudentsFirst.Api.Monolithic.Errors;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
-using StudentsFirst.Common.Constants;
 using StudentsFirst.Common.Dtos.Groups;
 using StudentsFirst.Common.Dtos.Users;
 using StudentsFirst.Common.Models;
@@ -53,7 +52,7 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
                 int skipping = request.Skip;
                 int taking = request.Take;
 
-                bool enforceOwnOnly = user.Role == RoleConstants.STUDENT;
+                bool enforceOwnOnly = user.IsStudent;
 
                 if (enforceOwnOnly)
                 {
