@@ -58,7 +58,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
                 .SingleOrDefaultAsync();
             
             Assert.NotNull(createdUserGroupMembership);
-            Assert.Equal(USER_ID, createdUserGroupMembership.UserId);
+            Assert.Equal(USER_ID, createdUserGroupMembership!.UserId);
             Assert.Equal(GROUP_ID, createdUserGroupMembership.GroupId);
         }
 

@@ -46,7 +46,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             Group? createdGroup = await context.Groups.SingleOrDefaultAsync();
 
             Assert.NotNull(createdGroup);
-            Assert.Equal(GROUP_NAME, createdGroup.Name);
+            Assert.Equal(GROUP_NAME, createdGroup!.Name);
 
             IList<UserGroupMembership> groupMemberships = await context.UserGroupMemberships.ToListAsync();
 
@@ -93,8 +93,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
 
             Assert.NotNull(createdGroupMembership);
             
-            Assert.Equal(user.Id, createdGroupMembership.UserId);
-            Assert.Equal(createdGroup.Id, createdGroupMembership.GroupId);
+            Assert.Equal(user.Id, createdGroupMembership!.UserId);
+            Assert.Equal(createdGroup!.Id, createdGroupMembership.GroupId);
         }
     }
 }

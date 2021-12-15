@@ -198,7 +198,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await context.Groups
-                .Where(g => g.Name.Contains(TERM_TO_MATCH))
+                .Where(g => g.Name.ToLower().Contains(TERM_TO_MATCH.ToLower()))
                 .OrderBy(g => g.Name)
                 .ToListAsync();
 
