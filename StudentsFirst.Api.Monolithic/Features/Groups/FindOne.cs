@@ -21,14 +21,14 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
 
         public class Handler : IRequestHandler<Request, GroupResponse>
         {
-            public Handler(StudentsFirstContext dbContext, IMapper mapper, IUserAccessorService userAccessorService)
+            public Handler(GroupsService groupsService, IMapper mapper, IUserAccessorService userAccessorService)
             {
-                _dbContext = dbContext;
+                _groupsService = groupsService;
                 _mapper = mapper;
                 _userAccessorService = userAccessorService;
             }
 
-            private readonly StudentsFirstContext _dbContext;
+            private readonly GroupsService _groupsService;
             private readonly IMapper _mapper;
             private readonly IUserAccessorService _userAccessorService;
 
@@ -36,23 +36,14 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
             {
                 User user = _userAccessorService.User!;
 
-                IQueryable<Group> groups = _dbContext.Groups;
-
                 bool enforceOwnOnly = user.IsStudent;
 
-                if (enforceOwnOnly)
-                {
-                    groups =
-                        from @group in groups
-                        join userGroupMembership in _dbContext.UserGroupMemberships on @group.Id equals userGroupMembership.GroupId
-                        where userGroupMembership.UserId == user.Id
-                        select @group;
-                }
+                Group group = await _groupsService.FindByGroupIdOrDefaultAsync(
+                    request.GroupId,
+                    withUserId: enforceOwnOnly ? user.Id : null
+                ) ?? throw new NotFoundRestException(nameof(Group));
 
-                Group foundGroup = await groups.SingleOrDefaultAsync(g => g.Id == request.GroupId)
-                    ?? throw new NotFoundRestException(nameof(Group));
-
-                return _mapper.Map<GroupResponse>(foundGroup);
+                return _mapper.Map<GroupResponse>(group);
             }
         }
     }

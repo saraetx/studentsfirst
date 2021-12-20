@@ -41,6 +41,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER),
@@ -53,7 +55,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindOne.Request request = new FindOne.Request(GROUP_ID);
-            FindOne.Handler handler = new FindOne.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindOne.Handler handler = new FindOne.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
         
             Group expectedEntity = await context.Groups.SingleAsync(g => g.Id == GROUP_ID);
 
@@ -75,6 +77,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.STUDENT),
@@ -88,7 +92,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindOne.Request request = new FindOne.Request(GROUP_ID);
-            FindOne.Handler handler = new FindOne.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindOne.Handler handler = new FindOne.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
         
             Group expectedEntity = await context.Groups.SingleAsync(g => g.Id == GROUP_ID);
 
@@ -109,6 +113,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER)
@@ -120,7 +126,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindOne.Request request = new FindOne.Request(INEXISTENT_GROUP_ID);
-            FindOne.Handler handler = new FindOne.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindOne.Handler handler = new FindOne.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
         
             await Assert.ThrowsAsync<NotFoundRestException>(async () => await handler.Handle(request));
         }
@@ -137,6 +143,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.STUDENT),
@@ -149,7 +157,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindOne.Request request = new FindOne.Request(GROUP_ID);
-            FindOne.Handler handler = new FindOne.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindOne.Handler handler = new FindOne.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
         
             await Assert.ThrowsAsync<NotFoundRestException>(async () => await handler.Handle(request));
         }

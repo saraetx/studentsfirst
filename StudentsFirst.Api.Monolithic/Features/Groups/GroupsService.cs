@@ -28,11 +28,7 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
 
             if (withUserId is not null)
             {
-                groups =
-                    from @group in groups
-                    join userGroupMembership in _dbContext.UserGroupMemberships on @group.Id equals userGroupMembership.GroupId
-                    where userGroupMembership.UserId == withUserId
-                    select @group;
+                groups = FilterGroupsWithUserId(groups, withUserId);
             }
 
             if (nameIncludes is not null)
@@ -47,14 +43,27 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
             return (await groups.ToListAsync(), total);
         }
 
-        public Task<Group?> FindByGroupIdOrDefaultAsync(string groupId, string? withUserId = null)
+        public async Task<Group?> FindByGroupIdOrDefaultAsync(string groupId, string? withUserId = null)
         {
-            throw new System.NotImplementedException();
+            IQueryable<Group> groups = _dbContext.Groups;
+
+            if (withUserId is not null)
+            {
+                groups = FilterGroupsWithUserId(groups, withUserId);
+            }
+
+            return await groups.SingleOrDefaultAsync(group => group.Id == groupId);
         }
 
         public Task<IList<UserGroupMembership>> GetMembershipsByGroupId(string groupId)
         {
             throw new System.NotImplementedException();
         }
+
+        private IQueryable<Group> FilterGroupsWithUserId(IQueryable<Group> groups, string withUserId) =>
+            from @group in groups
+            join userGroupMembership in _dbContext.UserGroupMemberships on @group.Id equals userGroupMembership.GroupId
+            where userGroupMembership.UserId == withUserId
+            select @group;
     }
 }
