@@ -17,9 +17,9 @@ export const groupsEntitiesInitialState: GroupsEntitiesState = {
   pagedEntitiesLoaded: false,
   pagedEntityIds: [],
   unpagedEntityIds: [],
-  pagingFilterNameIncludes: '',
-  pagingFilterOwnOnly: false,
   pagedEntitiesTotalCount: 0,
   pagingSkip: 0,
-  pagingTake: 0
+  pagingTake: 0,
+  pagingFilterNameIncludes: '',
+  pagingFilterOwnOnly: false
 };
