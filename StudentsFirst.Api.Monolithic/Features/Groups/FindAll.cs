@@ -10,6 +10,7 @@ using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
 using StudentsFirst.Common.Dtos.Groups;
 using StudentsFirst.Common.Models;
+using StudentsFirst.Common.Services;
 
 namespace StudentsFirst.Api.Monolithic.Features.Groups
 {
@@ -24,14 +25,14 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
 
         public class Handler : IRequestHandler<Request, GroupsResponse>
         {
-            public Handler(StudentsFirstContext dbContext, IMapper mapper, IUserAccessorService userAccessorService)
+            public Handler(IGroupsService groupsService, IMapper mapper, IUserAccessorService userAccessorService)
             {
-                _dbContext = dbContext;
+                _groupsService = groupsService;
                 _mapper = mapper;
                 _userAccessorService = userAccessorService;
             }
 
-            private readonly StudentsFirstContext _dbContext;
+            private readonly IGroupsService _groupsService;
             private readonly IMapper _mapper;
             private readonly IUserAccessorService _userAccessorService;
 
@@ -39,35 +40,21 @@ namespace StudentsFirst.Api.Monolithic.Features.Groups
             {
                 User user = _userAccessorService.User!;
 
-                IQueryable<Group> groups = _dbContext.Groups;
+                bool enforceOwnOnly = user.IsStudent;
+                bool filterForOwnOnly = request.OwnOnly;
+                bool filterByNameIncludes = !string.IsNullOrEmpty(request.NameIncludes);
 
-                bool filtering = false;
+                var (groups, total) = await _groupsService.FindAllAsync(
+                    withUserId: filterForOwnOnly || enforceOwnOnly ? user.Id : null,
+                    nameIncludes: filterByNameIncludes ? request.NameIncludes : null,
+                    request.Skip,
+                    request.Take
+                );
+
+                IList<GroupResponse> response = _mapper.Map<IList<GroupResponse>>(groups);
+                bool filtering = filterForOwnOnly || filterByNameIncludes;
                 int skipping = request.Skip;
                 int taking = request.Take;
-
-                bool enforceOwnOnly = user.IsStudent;
-
-                if (request.OwnOnly || enforceOwnOnly)
-                {
-                    groups =
-                        from @group in groups
-                        join userGroupMembership in _dbContext.UserGroupMemberships on @group.Id equals userGroupMembership.GroupId
-                        where userGroupMembership.UserId == user.Id
-                        select @group;
-
-                    if (request.OwnOnly) { filtering = true; }
-                }
-
-                if (!string.IsNullOrEmpty(request.NameIncludes))
-                {
-                    groups = groups.Where(g => g.Name.ToLower().Contains(request.NameIncludes.ToLower()));
-                    filtering = true;
-                }
-
-                int total = await groups.CountAsync();
-                groups = groups.OrderBy(g => g.Name).Skip(skipping).Take(taking);
-
-                IList<GroupResponse> response = _mapper.Map<IList<GroupResponse>>(await groups.ToListAsync());
 
                 return new GroupsResponse(response, filtering, total, skipping, taking);
             }

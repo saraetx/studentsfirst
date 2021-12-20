@@ -43,6 +43,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER),
@@ -57,7 +59,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindAll.Request request = new FindAll.Request(NameIncludes: null, OwnOnly: false, Skip: 0, Take: 100);
-            FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindAll.Handler handler = new FindAll.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await context.Groups.OrderBy(g => g.Name).ToListAsync();
 
@@ -83,6 +85,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER),
@@ -97,7 +101,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindAll.Request request = new FindAll.Request(NameIncludes: null, OwnOnly: true, Skip: 0, Take: 100);
-            FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindAll.Handler handler = new FindAll.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await (
                 from @group in context.Groups
@@ -130,6 +134,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.STUDENT),
@@ -144,7 +150,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindAll.Request request = new FindAll.Request(NameIncludes: null, OwnOnly: false, Skip: 0, Take: 100);
-            FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindAll.Handler handler = new FindAll.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await (
                 from @group in context.Groups
@@ -181,6 +187,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER),
@@ -195,7 +203,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindAll.Request request = new FindAll.Request(NameIncludes: TERM_TO_MATCH, OwnOnly: false, Skip: 0, Take: 100);
-            FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindAll.Handler handler = new FindAll.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await context.Groups
                 .Where(g => g.Name.ToLower().Contains(TERM_TO_MATCH.ToLower()))
@@ -233,6 +241,8 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             using StudentsFirstContext context = _dbContextProvider.Context;
             using StudentsFirstContext providedContext = _dbContextProvider.Context;
 
+            GroupsService providedGroupsService = new GroupsService(providedContext);
+
             context.AddRange(new object[]
             {
                 new User(USER_ID, USER_NAME, RoleConstants.TEACHER),
@@ -249,7 +259,7 @@ namespace StudentsFirst.Api.Monolithic.Tests.Features.Groups
             IUserAccessorService userAccessorService = new UserAccessorService(user);
 
             FindAll.Request request = new FindAll.Request(NameIncludes: null, OwnOnly: false, skip, take);
-            FindAll.Handler handler = new FindAll.Handler(providedContext, _mapperProvider.Mapper, userAccessorService);
+            FindAll.Handler handler = new FindAll.Handler(providedGroupsService, _mapperProvider.Mapper, userAccessorService);
 
             IList<Group> expectedEntities = await context.Groups
                 .OrderBy(g => g.Name)

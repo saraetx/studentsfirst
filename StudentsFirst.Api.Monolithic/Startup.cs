@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using StudentsFirst.Api.Monolithic.Features.Groups;
 using StudentsFirst.Api.Monolithic.Infrastructure;
 using StudentsFirst.Api.Monolithic.Infrastructure.Auth;
 using StudentsFirst.Api.Monolithic.Infrastructure.Errors;
@@ -52,6 +53,8 @@ namespace StudentsFirst.Api.Monolithic
             services.AddAutoMapper(typeof(Startup));
             services.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddApplicationErrorHandling();
+
+            services.AddTransient<GroupsService>();
 
             services.AddControllers();
 
